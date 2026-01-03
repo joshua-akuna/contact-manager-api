@@ -1,0 +1,19 @@
+{
+  "name": "contact-manager-api",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/joshua-akuna/contact-manager-api#readme",
+  "bugs": {
+    "url": "https://github.com/joshua-akuna/contact-manager-api/issues"
+  },
+  "license": "ISC",
+  "author": "Akuna Joshua",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}

@@ -5,9 +5,13 @@ const app = express();
 // import and configure dotenv dependency
 require('dotenv').config();
 // imports the routes
-const contactsRoutes = require('./routes/contactsRoutes');
+const contactsRoutes = require('./routes/contactRoute');
+
 // declare the PORT variable
 const PORT = process.env.PORT || 5000;
+
+// middlewares
+app.use(express.json());
 
 // app endpoint for all posts
 app.use('/api/v1/contacts', contactsRoutes);

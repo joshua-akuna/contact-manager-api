@@ -8,7 +8,7 @@ const userRoutes = require('./routes/userRoutes');
 const errorHandler = require('./middleware/errorHandler');
 // connect to database
 const connectDB = require('./config/dbConnection');
-// connectDB();
+connectDB();
 
 // create the app server from express
 const app = express();

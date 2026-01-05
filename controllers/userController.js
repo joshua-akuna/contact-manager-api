@@ -77,7 +77,7 @@ const loginUser = asyncHandler(async (req, res) => {
     res.status(200).json({ accessToken });
   } else {
     // if passwords do not match
-    res.status(400);
+    res.status(401);
     throw new Error('Invalid username or password.');
   }
 });

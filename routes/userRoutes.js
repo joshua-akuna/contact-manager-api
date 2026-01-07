@@ -6,9 +6,10 @@ const {
   loginUser,
   userInfo,
 } = require('../controllers/userController');
+const verifyToken = require('../middleware/verifyToken');
 
 router.post('/register', registerUser);
 router.post('/login', loginUser);
-router.get('/info', userInfo);
+router.get('/info', verifyToken, userInfo);
 
 module.exports = router;

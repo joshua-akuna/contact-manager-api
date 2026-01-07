@@ -3,7 +3,7 @@ const express = require('express');
 // import and configure dotenv dependency
 require('dotenv').config();
 // imports the routes
-const contactsRoutes = require('./routes/contactRoutes');
+const contactRoutes = require('./routes/contactRoutes');
 const userRoutes = require('./routes/userRoutes');
 const errorHandler = require('./middleware/errorHandler');
 // connect to database
@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // route endpoint for all posts
-app.use('/api/v1/contacts', contactsRoutes);
+app.use('/api/v1/contacts', contactRoutes);
 app.use('/api/v1/users', userRoutes);
 
 // error handler middleware

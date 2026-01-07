@@ -3,15 +3,15 @@ const Contact = require('../model/contactModel');
 
 //@desc Get all contacts
 //@route GET /api/v1/contacts
-//@access public
+//@access private
 const getContacts = asyncHandler(async (req, res) => {
-  const contacts = await Contact.find();
+  const contacts = await Contact.find({});
   res.status(200).json(contacts);
 });
 
 // @desc Get a single contact
 // @route GET /api/v1/contacts/:id
-// @access public
+// @access private
 const getContact = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const contact = await Contact.findById(id);
@@ -24,7 +24,7 @@ const getContact = asyncHandler(async (req, res) => {
 
 // @desc Create a new contact
 // @route POST /api/v1/contacts
-// @access public
+// @access private
 const createContact = asyncHandler(async (req, res) => {
   const { name, email, phone } = req.body;
   if (!name || !email || !phone) {
@@ -37,7 +37,7 @@ const createContact = asyncHandler(async (req, res) => {
 
 // @desc Delete a contact
 // @route DELETE /api/v1/contacts/:id
-// @access public
+// @access private
 const deleteContact = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const contact = await Contact.findById(id);
@@ -51,7 +51,7 @@ const deleteContact = asyncHandler(async (req, res) => {
 
 // @desc Update a contact
 // @route PUT /api/v1/contacts/:id
-// @access public
+// @access private
 const updateContact = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const contact = await Contact.findById(id);

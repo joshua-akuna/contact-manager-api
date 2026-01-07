@@ -29,15 +29,16 @@ const registerUser = asyncHandler(async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
   // creates the new user
-  const user = await User.create({
-    username,
-    email,
-    password: hashedPassword,
-  });
+  const user = await User.create({ username, email, password: hashedPassword });
   // sends new user data as response
-  res
-    .status(201)
-    .json({ _id: user._id, email: user.email, username: user.username });
+  if (user) {
+    res
+      .status(201)
+      .json({ _id: user._id, email: user.email, username: user.username });
+  } else {
+    res.status(400);
+    throw new Error('User data is not valid');
+  }
 });
 
 //@desc Login existing user
@@ -60,8 +61,8 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 
   // compares the provided password with the user hashed password
-  if (bcrypt.compare(password, user.password)) {
-    console.log(process.env.JWT_SECRET);
+  if (user && (await bcrypt.compare(password, user.password))) {
+    // console.log(process.env.JWT_SECRET);
     // generates JWT access token
     const accessToken = jwt.sign(
       {
@@ -78,7 +79,7 @@ const loginUser = asyncHandler(async (req, res) => {
   } else {
     // if passwords do not match
     res.status(401);
-    throw new Error('Invalid username or password.');
+    throw new Error('Invalid email or password.');
   }
 });
 
@@ -86,7 +87,7 @@ const loginUser = asyncHandler(async (req, res) => {
 //@route GET /api/v1/users/info
 //@access private
 const userInfo = (req, res) => {
-  res.status(200).json({ message: 'User information' });
+  res.status(200).json(req.user);
 };
 
 module.exports = { registerUser, loginUser, userInfo };

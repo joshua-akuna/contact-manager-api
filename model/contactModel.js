@@ -3,6 +3,11 @@ const { Schema, model } = require('mongoose');
 
 const contactSchema = new Schema(
   {
+    user_id: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: 'User',
+    },
     name: {
       type: String,
       required: [true, 'Please add the contact name'],

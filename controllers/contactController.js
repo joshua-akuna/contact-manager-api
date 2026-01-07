@@ -5,7 +5,7 @@ const Contact = require('../model/contactModel');
 //@route GET /api/v1/contacts
 //@access private
 const getContacts = asyncHandler(async (req, res) => {
-  const contacts = await Contact.find({});
+  const contacts = await Contact.find({ user_id: req.user.id });
   res.status(200).json(contacts);
 });
 
@@ -31,7 +31,12 @@ const createContact = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error('All fields are mandatory!');
   }
-  const contact = await Contact.create({ name, email, phone });
+  const contact = await Contact.create({
+    name,
+    email,
+    phone,
+    user_id: req.user.id,
+  });
   res.status(201).json(contact);
 });
 
@@ -45,6 +50,12 @@ const deleteContact = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error('Contact not found');
   }
+
+  if (contact.user_id.toString() !== req.user.id) {
+    res.status(403);
+    throw new Error('User not authorized to delete this contact');
+  }
+
   const deletedContact = await Contact.findByIdAndDelete(id);
   res.status(200).json(deletedContact);
 });
@@ -59,6 +70,12 @@ const updateContact = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error('Contact not found');
   }
+
+  if (contact.user_id.toString() !== req.user.id) {
+    res.status(403);
+    throw new Error('User not authorized to update this contact');
+  }
+
   const updatedContact = await Contact.findByIdAndUpdate(id, req.body, {
     new: true,
   });
